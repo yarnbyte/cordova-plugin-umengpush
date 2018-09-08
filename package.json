@@ -1,0 +1,25 @@
+{
+  "name": "cordova-plugin-umengpush",
+  "version": "1.0.1",
+  "description": "友盟推送cordova插件",
+  "cordova": {
+    "id": "com.yl.umengpush",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plat10510/cordova-plugin-umengpush.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "plat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/plat10510/cordova-plugin-umengpush/issues"
+  },
+  "homepage": "https://github.com/plat10510/cordova-plugin-umengpush#readme"
+}
