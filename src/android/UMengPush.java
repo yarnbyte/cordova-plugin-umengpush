@@ -64,7 +64,7 @@ public class UMengPush extends CordovaPlugin {
     public void setAlias(String alias, final CallbackContext callbackContext) {
         Log.v("usecordova","setAlias");
         if (alias != null && alias.length() > 0) {
-            mPushAgent.setAlias(alias, "ALIAS_TYPE.DIPAI", new UTrack.ICallBack() {
+            mPushAgent.setAlias(alias, "Android", new UTrack.ICallBack() {
                 @Override
                 public void onMessage(boolean b, String s) {
                     if(b){
@@ -84,7 +84,7 @@ public class UMengPush extends CordovaPlugin {
     //添加别名
     public void addAlias(String alias, final CallbackContext callbackContext) {
         if (alias != null && alias.length() > 0) {
-            mPushAgent.addAlias(alias, "ALIAS_TYPE.DIPAI", new UTrack.ICallBack() {
+            mPushAgent.addAlias(alias, "Android", new UTrack.ICallBack() {
                 @Override
                 public void onMessage(boolean b, String s) {
                     if(b){
@@ -103,7 +103,7 @@ public class UMengPush extends CordovaPlugin {
     //删除别名
     public void deleteAlias(String alias, final CallbackContext callbackContext) {
         if (alias != null && alias.length() > 0) {
-            mPushAgent.deleteAlias(alias, "ALIAS_TYPE.DIPAI", new UTrack.ICallBack() {
+            mPushAgent.deleteAlias(alias, "Android", new UTrack.ICallBack() {
                 @Override
                 public void onMessage(boolean b, String s) {
                     if(b){
