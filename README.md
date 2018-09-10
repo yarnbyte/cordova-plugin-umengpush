@@ -3,7 +3,7 @@
 
 ## 1. 安装
 ```
-ionic cordova plugin add cordova-plugin-umengpush --variable UM_APPKEY=YOUR_UM_APPKEY --variable UM_MESSAGE_SECRET=YOUR_UM_MESSAGE_SECRET
+cordova plugin add cordova-plugin-umengpush --variable UM_APPKEY=YOUR_UM_APPKEY --variable UM_MESSAGE_SECRET=YOUR_UM_MESSAGE_SECRET
 ```
 
 ## 2. 使用
