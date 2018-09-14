@@ -1,5 +1,5 @@
 # cordova-plugin-umengpush
-友盟推送cordova插件
+友盟推送cordova插件，目前已支持华为推送。
 
 ## 1. 安装
 ```
@@ -46,3 +46,5 @@ constructor(public navCtrl: NavController,
     });
   }
   ```
+## 下一步
+集成小米和魅族推送
