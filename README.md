@@ -47,4 +47,4 @@ constructor(public navCtrl: NavController,
   }
   ```
 ## 下一步
-集成小米和魅族推送
+集成小米和魅族推送，集成支持iOS平台。
