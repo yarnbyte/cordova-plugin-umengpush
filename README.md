@@ -28,7 +28,7 @@ src/android/UMApplication.java
 
 
 # 2. 使用
-## 2.1 cordova
+## for cordova
 ```
 cordova.plugins.UMengPush.setAlias("alias","ALIAS_TYPE", function (res) {
       alert(JSON.stringify(res));
@@ -37,7 +37,7 @@ cordova.plugins.UMengPush.setAlias("alias","ALIAS_TYPE", function (res) {
     })
 ```
 
-## 2.2 ionic3+
+## for ionic3+
 
 ### 安装该插件的ionic支持
 
