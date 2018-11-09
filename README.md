@@ -1,50 +1,40 @@
 # cordova-plugin-umengpush
-友盟推送cordova插件，目前已支持华为推送。
+友盟推送cordova插件，目前已支持华为、小米和魅族推送。
 
 ## 1. 安装
+需要iOS以及小米、华为、魅族推送的相关的AK或SK，按下面的命令安装，有点长，可以先用其他字符占用。
+
 ```
-cordova plugin add cordova-plugin-umengpush --variable UM_APPKEY=YOUR_UM_APPKEY --variable UM_MESSAGE_SECRET=YOUR_UM_MESSAGE_SECRET
+cordova plugin add cordova-plugin-umengpush --variable IOS_APPKEY=YOUR_IOS_APPKEY --variable UM_APPKEY=YOUR_UM_APPKEY --variable UM_MESSAGE_SECRET=YOUR_UM_MESSAGE_SECRET --variable XIAOMI_ID=YOUR_XIAOMI_ID --variable XIAOMI_KEY=YOUR_XIAOMI_KEY --variable MEIZU_APPID=YOUR_MEIZU_APPID --variable MEIZU_APPKEY=YOUR_MEIZU_APPKEY
+
 ```
+
+安装后可到源码中修改相关AK与SK信息，位置如下：
+### iOS平台
+```
+src/ios/UMengPush.m
+
+代码第19到23行，该处是从配置文件中获取AK，可以自己替换
+```
+
+### Android平台
+```
+src/android/UMApplication.java
+
+代码从34到47行，是从配置文件中获取AK与SK信息，可自己替换。
+
+代码从71到79是注册厂家通道的推送，可根据自己的需求自行修改代码。
+```
+
+
 
 ## 2. 使用
 ```
-cordova.plugins.UMengPush.coolMethod("测试数据", function (res) {
+cordova.plugins.UMengPush.setAlias("alias","ALIAS_TYPE", function (res) {
       alert(JSON.stringify(res));
     }, function (err) {
       alert(JSON.stringify(err));
     })
 ```
 
-### 2.1 ionic3+使用(beta)(还没来得及测试)
-```
-npm i ionic-umengpush --save
-```
 
-### 2.2 添加到```app.moudles.ts```的```providers[]```中。
-```
-providers: [
-    ...
-    UMengPush,
-    ...
-  ]
-```
-
-### 2.3 尽情使用吧
-```
-constructor(public navCtrl: NavController,
-    public umengpush: UMengPush) {
-      init()
-  }
-  
-  init(){
-    this.umengpush.setAlias("xxx").then(result => {
-      alert(JSON.stringify(result))
-      console.log("================")
-      console.log(JSON.stringify(result));
-    }).catch(err=>{
-      alert(JSON.stringify(err));
-    });
-  }
-  ```
-## 下一步
-集成小米和魅族推送，集成支持iOS平台。
