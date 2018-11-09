@@ -1,29 +1,29 @@
 var exec = require('cordova/exec');
 
-exports.coolMethod = function (arg, success, error) {
-    exec(success, error, 'UMengPush', 'coolMethod', arg);
+exports.coolMethod = function (alias,alias_type, success, error) {
+    exec(success, error, 'UMengPush', 'coolMethod', [alias,alias_type]);
 };
 
-exports.setAlias = function (arg, success, error) {
-    exec(success, error, 'UMengPush', 'setAlias', arg);
+exports.setAlias = function (alias,alias_type, success, error) {
+    exec(success, error, 'UMengPush', 'setAlias', [alias,alias_type]);
 };
 
-exports.addAlias = function (arg, success, error) {
-    exec(success, error, 'UMengPush', 'addAlias', arg);
+exports.addAlias = function (alias,alias_type, success, error) {
+    exec(success, error, 'UMengPush', 'addAlias', [alias,alias_type]);
 };
 
-exports.deleteAlias = function (arg, success, error) {
-    exec(success, error, 'UMengPush', 'deleteAlias', arg);
+exports.deleteAlias = function (alias,alias_type, success, error) {
+    exec(success, error, 'UMengPush', 'deleteAlias', [alias,alias_type]);
 };
 
-exports.addTags = function (arg, success, error) {
-    exec(success, error, 'UMengPush', 'addTags', arg);
+exports.addTags = function (tag, success, error) {
+    exec(success, error, 'UMengPush', 'addTags', [tag]);
 };
 
-exports.deleteTags = function (arg, success, error) {
-    exec(success, error, 'UMengPush', 'deleteTags', arg);
+exports.deleteTags = function (tag, success, error) {
+    exec(success, error, 'UMengPush', 'deleteTags', [tag]);
 };
 
 exports.getRemoteNotification = function(success, error){
-    exec(success, error, 'UmengPush', 'getRemoteNotification', []);
+    exec(success, error, 'UMengPush', 'getRemoteNotification', []);
 }
