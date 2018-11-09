@@ -1,55 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-umengpush" version="1.0.0">  
-  <name>UMengPush</name>  
-  <js-module name="UMengPush" src="www/UMengPush.js"> 
-    <clobbers target="cordova.plugins.UMengPush"/> 
-  </js-module> 
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-umengpush" version="1.0.0">
+  <name>UMengPush</name>
+  <js-module name="UMengPush" src="www/UMengPush.js">
+    <clobbers target="cordova.plugins.UMengPush"/>
+  </js-module>
+  <preference name="IOS_APPKEY" default=""/>
   <preference name="UM_APPKEY" default=""/>
   <preference name="UM_MESSAGE_SECRET" default=""/>
-  <!-- <preference name="XIAOMI_ID" default=""/>
+  <preference name="XIAOMI_ID" default=""/>
   <preference name="XIAOMI_KEY" default=""/>
   <preference name="MEIZU_APPID" default=""/>
-  <preference name="MEIZU_APPKEY" default=""/> -->
-  <platform name="android"> 
-  <hook type="after_prepare" src="scripts/android_app_name.js" />
-    <config-file parent="/*" target="res/xml/config.xml"> 
-      <feature name="UMengPush"> 
-        <param name="android-package" value="com.yl.umeng.UMengPush"/> 
-      </feature> 
-    </config-file>  
-    <!-- manifest节点 -->
-    <config-file target="AndroidManifest.xml" parent="/manifest"> 
-      <!-- Required  一些系统要求的权限，如访问网络等-->  
-      <!-- 必须的权限 -->  
-      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>  
-      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>  
-      <uses-permission android:name="android.permission.READ_PHONE_STATE"/>  
-      <uses-permission android:name="android.permission.INTERNET"/>  
-      <!-- 推荐的权限 -->  
-      <!-- 添加如下权限，以便使用更多的第三方SDK和更精准的统计数据 -->  
-      <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>  
-      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>  
-      <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>  
-      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> 
-    </config-file>  
-
-    <!-- application节点 -->
-    <config-file target="AndroidManifest.xml" parent="/manifest/application" mode="merge">
-      <activity android:name="com.yl.umeng.PushActivity"
-            android:launchMode="singleTask"
-            android:exported="true"/>
-      <meta-data android:name="UM_APPKEY" android:value="$UM_APPKEY" />
-      <meta-data android:name="UM_MESSAGE_SECRET" android:value="$UM_MESSAGE_SECRET" />
+  <preference name="MEIZU_APPKEY" default=""/>
+  <platform name="android">
+    <hook src="scripts/android_app_name.js" type="after_prepare"/>
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="UMengPush">
+        <param name="android-package" value="com.yl.umeng.UMengPush"/>
+      </feature>
     </config-file>
-
-    <config-file parent="/*" target="AndroidManifest.xml"/>  
-    <framework src="src/android/plugin.gradle" custom="true" type="gradleReference" />
-    <source-file src="src/android/UMengPush.java" target-dir="src/com/yl/umeng"/> 
-    <source-file src="src/android/PushActivity.java" target-dir="src/com/yl/umeng"/>  
-    <source-file src="src/android/UMApplication.java" target-dir="src/com/yl/umeng"/> 
-    <source-file src="libs/umeng-common-1.4.4.jar" target-dir="libs"/>  
-    <source-file src="libs/utdid4all-1.1.5.3_proguard.jar" target-dir="libs"/> 
-    <resource-file src="aars/push.aar" target="aars/push.aar" /> 
-  </platform> 
+    <config-file parent="/*" target="AndroidManifest.xml">
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+      <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+      <uses-permission android:name="android.permission.INTERNET"/>
+      <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+      <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    </config-file>
+    <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
+      <activity android:exported="true" android:launchMode="singleTask" android:name="com.yl.umeng.PushActivity"/>
+      <meta-data android:name="UM_APPKEY" android:value="$UM_APPKEY"/>
+      <meta-data android:name="UM_MESSAGE_SECRET" android:value="$UM_MESSAGE_SECRET"/>
+      <meta-data android:name="XIAOMI_ID" android:value="$XIAOMI_ID"/>
+      <meta-data android:name="XIAOMI_KEY" android:value="$XIAOMI_KEY"/>
+      <meta-data android:name="MEIZU_APPID" android:value="$MEIZU_APPID"/>
+      <meta-data android:name="MEIZU_APPKEY" android:value="$MEIZU_APPKEY"/>
+    </config-file>
+    <config-file parent="/*" target="AndroidManifest.xml"/>
+    <framework custom="true" src="src/android/plugin.gradle" type="gradleReference"/>
+    <source-file src="src/android/UMengPush.java" target-dir="src/com/yl/umeng"/>
+    <source-file src="src/android/PushActivity.java" target-dir="src/com/yl/umeng"/>
+    <source-file src="src/android/UMApplication.java" target-dir="src/com/yl/umeng"/>
+    <lib-file src="src/android/libs/umeng-common-1.4.4.jar"/>
+    <lib-file src="src/android/libs/utdid4all-1.1.5.3_proguard.jar"/>
+    <resource-file src="src/android/aars/push.aar" target="libs/push.aar"/>
+  </platform>
+  <platform name="ios">
+    <config-file parent="/*" target="config.xml">
+      <feature name="UMengPush">
+        <param name="ios-package" value="UMengPush"/>
+        <param name="onload" value="true" />
+      </feature>
+      <preference name="UMENGPUSHAPPID" value="$IOS_APPKEY" />
+    </config-file>
+    <header-file src="src/ios/UMengPush.h"/>
+    <header-file src="src/ios/AppDelegate+UmengPush.h"/>
+    <source-file src="src/ios/UMengPush.m"/>
+    <source-file src="src/ios/AppDelegate+UmengPush.m"/>
+    <framework src="src/ios/librarys/SecurityEnvSDK.framework" custom="true"/>
+    <framework src="src/ios/librarys/UMCommon.framework" custom="true"/>
+    <framework src="src/ios/librarys/UMCommonLog.framework" custom="true"/>
+    <framework src="src/ios/librarys/UMPush.framework" custom="true"/>
+    <framework src="src/ios/librarys/UTDID.framework" custom="true"/>
+    <resource-file src="src/ios/librarys/UMCommonLog.bundle"/>
+    <framework src="CoreTelephony.framework" />
+    <framework src="UserNotifications.framework" />
+    <framework src="libz.tbd" />
+    <framework src="libsqlite3.tbd" />
+  </platform>
 </plugin>

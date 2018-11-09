@@ -8,11 +8,13 @@ import com.umeng.message.UTrack;
 import com.umeng.message.common.inter.ITagManager;
 import com.umeng.message.tag.TagManager;
 
+import org.apache.cordova.CordovaArgs;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +29,9 @@ public class UMengPush extends CordovaPlugin {
     private static final String TAG = UMengPush.class.getSimpleName();
     private PushAgent mPushAgent;
 
+    private CallbackContext mCallbackContext;
+    public static JSONObject pendingNotification;
+
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -35,14 +40,14 @@ public class UMengPush extends CordovaPlugin {
     }
 
     @Override
-    public boolean execute(final String action,final String msg,final CallbackContext callbackContext) throws JSONException {
+    public boolean execute(final String action,final JSONArray args,final CallbackContext callbackContext) throws JSONException {
 
         cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Method method = UMengPush.class.getDeclaredMethod(action, String.class, CallbackContext.class);
-                    method.invoke(UMengPush.this, msg, callbackContext);
+                    Method method = UMengPush.class.getDeclaredMethod(action, JSONArray.class, CallbackContext.class);
+                    method.invoke(UMengPush.this, args, callbackContext);
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
@@ -51,9 +56,14 @@ public class UMengPush extends CordovaPlugin {
         return true;
     }
 
-    public void coolMethod(String message, CallbackContext callbackContext) {
-        if (message != null && message.length() > 0) {
-            callbackContext.success(message);
+    public void coolMethod(JSONArray args, CallbackContext callbackContext) {
+
+
+        String alias = args.optString(0);
+        String alias_type = args.optString(1);
+
+        if (args != null) {
+            callbackContext.success(alias+"==="+alias_type);
         } else {
             callbackContext.error("Expected one non-empty string argument.");
         }
@@ -61,10 +71,14 @@ public class UMengPush extends CordovaPlugin {
 
 
     //设置别名
-    public void setAlias(String alias, final CallbackContext callbackContext) {
+    public void setAlias(JSONArray args, final CallbackContext callbackContext) {
         Log.v("usecordova","setAlias");
-        if (alias != null && alias.length() > 0) {
-            mPushAgent.setAlias(alias, "Android", new UTrack.ICallBack() {
+
+        String alias = args.optString(0);
+        String alias_type = args.optString(1);
+
+        if (args != null) {
+            mPushAgent.setAlias(alias, alias_type, new UTrack.ICallBack() {
                 @Override
                 public void onMessage(boolean b, String s) {
                     if(b){
@@ -82,9 +96,12 @@ public class UMengPush extends CordovaPlugin {
     }
 
     //添加别名
-    public void addAlias(String alias, final CallbackContext callbackContext) {
-        if (alias != null && alias.length() > 0) {
-            mPushAgent.addAlias(alias, "Android", new UTrack.ICallBack() {
+    public void addAlias(JSONArray args, CallbackContext callbackContext) {
+        String alias = args.optString(0);
+        String alias_type = args.optString(1);
+
+        if (args != null) {
+            mPushAgent.addAlias(alias, alias_type, new UTrack.ICallBack() {
                 @Override
                 public void onMessage(boolean b, String s) {
                     if(b){
@@ -101,9 +118,13 @@ public class UMengPush extends CordovaPlugin {
     }
 
     //删除别名
-    public void deleteAlias(String alias, final CallbackContext callbackContext) {
-        if (alias != null && alias.length() > 0) {
-            mPushAgent.deleteAlias(alias, "Android", new UTrack.ICallBack() {
+    public void deleteAlias(JSONArray args, CallbackContext callbackContext) {
+
+        String alias = args.optString(0);
+        String alias_type = args.optString(1);
+
+        if (args != null) {
+            mPushAgent.deleteAlias(alias, alias_type, new UTrack.ICallBack() {
                 @Override
                 public void onMessage(boolean b, String s) {
                     if(b){
@@ -119,9 +140,12 @@ public class UMengPush extends CordovaPlugin {
     }
 
 
-    //设置标签
-    public void addTags(String tag, final CallbackContext callbackContext) {
-        if (tag != null && tag.length() > 0) {
+    //添加标签
+    public void addTags(JSONArray args, CallbackContext callbackContext) {
+        String tag = args.optString(0);
+
+        if (args != null) {
+
             mPushAgent.getTagManager().addTags(new TagManager.TCallBack() {
                 @Override
                 public void onMessage(boolean b, ITagManager.Result result) {
@@ -139,8 +163,11 @@ public class UMengPush extends CordovaPlugin {
 
 
     //删除标签
-    public void deleteTags(String tag, final CallbackContext callbackContext) {
-        if (tag != null && tag.length() > 0) {
+    public void deleteTags(JSONArray args, CallbackContext callbackContext) {
+        String tag = args.optString(0);
+
+        if (args != null) {
+
             mPushAgent.getTagManager().deleteTags(new TagManager.TCallBack() {
                 @Override
                 public void onMessage(boolean b, ITagManager.Result result) {
@@ -151,9 +178,35 @@ public class UMengPush extends CordovaPlugin {
                     }
                 }
             },tag);
+
         } else {
             callbackContext.error("参数不能为空.");
         }
+    }
+
+    protected boolean getRemoteNotification(String arg, final CallbackContext callbackContext) {
+        mCallbackContext = callbackContext;
+        if (pendingNotification == null) {
+            try {
+                pendingNotification = new JSONObject("{}");
+            }
+            catch (JSONException e) {
+                mCallbackContext.error(e.getMessage());
+            }
+        }
+        sendNotification(pendingNotification);
+        return true;
+    }
+
+    private void sendNotification(JSONObject json) {
+        if (mCallbackContext == null) {
+            pendingNotification = json;
+            return;
+        }
+        PluginResult result = new PluginResult(PluginResult.Status.OK, json);
+        pendingNotification = null;
+        result.setKeepCallback(true);
+        mCallbackContext.sendPluginResult(result);
     }
 
 }
