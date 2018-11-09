@@ -69,7 +69,8 @@ constructor(
   }
 
   login(){
-      this.upush.setAlias(user.loginName,"ALIAS_TYPE").then(res=>{
+    ...
+    this.upush.setAlias(user.loginName,"ALIAS_TYPE").then(res=>{
                 console.log("res==",res);
               }).catch(error=>{
                 console.log("error==",error);
