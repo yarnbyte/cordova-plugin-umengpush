@@ -36,14 +36,16 @@ cordova.plugins.UMengPush.setAlias("alias","ALIAS_TYPE", function (res) {
     })
 ```
 
-## 2.1 ionic3+
+## 2.1 ionic3+中使用
 
 ### 安装该插件的ionic支持
+
 ```
 npm i upush
 ```
 
 ### 引入module.ts
+
 ```
 import { Upush } from 'upush';
 
@@ -56,6 +58,7 @@ providers: [
 ```
 
 ### 设置Alias
+
 ```
 constructor(
   ...
