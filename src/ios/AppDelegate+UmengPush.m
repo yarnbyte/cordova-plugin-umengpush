@@ -77,7 +77,7 @@
     
     NSLog(@"device token is %@",token);
     
-    [[NSUserDefaults standardUserDefaults] setValue:token forKey:@"video_deviceToken"];
+    [[NSUserDefaults standardUserDefaults] setValue:token forKey:@"my_deviceToken"];
     
 }
 @end

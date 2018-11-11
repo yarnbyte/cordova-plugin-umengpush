@@ -11,6 +11,7 @@
 @property (nonatomic, strong) NSString *umengPushAppId;
 
 - (void)coolMethod:(CDVInvokedUrlCommand *)command;
+- (void)init:(CDVInvokedUrlCommand *)command;
 - (void)setAlias:(CDVInvokedUrlCommand *)command;
 - (void)addAlias:(CDVInvokedUrlCommand *)command;
 - (void)deleteAlias:(CDVInvokedUrlCommand *)command;

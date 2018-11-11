@@ -74,6 +74,17 @@ static id static_self;
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)init:(CDVInvokedUrlCommand *)command
+{
+    
+    NSString *device_token = [[NSUserDefaults standardUserDefaults] objectForKey:@"my_deviceToken"];
+    if (device_token != nil) {
+        [self successWithCallbackId:command.callbackId withMessage:device_token];
+    }else{
+        [self failWithCallbackId:command.callbackId withMessage:@"TOKEN获取失败"];
+    }
+}
+
 - (void)setAlias:(CDVInvokedUrlCommand *)command
 {
     NSArray *args = [command arguments];

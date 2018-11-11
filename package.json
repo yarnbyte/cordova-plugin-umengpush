@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-umengpush",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "友盟推送cordova插件",
   "cordova": {
     "id": "com.yl.umengpush",
@@ -14,10 +14,10 @@
     "url": "git+https://github.com/plat10510/cordova-plugin-umengpush.git"
   },
   "keywords": [
-    "ecosystem:cordova",
-    "cordova-android"
+    "umeng",
+    "push"
   ],
-  "author": "plat",
+  "author": "luoyuanli",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/plat10510/cordova-plugin-umengpush/issues"

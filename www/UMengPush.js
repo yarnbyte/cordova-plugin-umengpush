@@ -4,6 +4,10 @@ exports.coolMethod = function (alias,alias_type, success, error) {
     exec(success, error, 'UMengPush', 'coolMethod', [alias,alias_type]);
 };
 
+exports.init = function(success, error){
+    exec(success, error, 'UMengPush','init',[]);
+}
+
 exports.setAlias = function (alias,alias_type, success, error) {
     exec(success, error, 'UMengPush', 'setAlias', [alias,alias_type]);
 };
