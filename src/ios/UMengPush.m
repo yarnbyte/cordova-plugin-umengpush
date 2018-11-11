@@ -15,7 +15,7 @@ static id static_self;
 - (void)pluginInitialize
 {
     static_self = self;
-//    这是从资源里获取的
+//    这是从资源里获取umengpushappid
    NSString* appId = [[self.commandDelegate settings] objectForKey:@"umengpushappid"];
    if (appId)
    {

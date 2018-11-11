@@ -1,6 +1,7 @@
 package com.yl.umeng;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -22,6 +23,9 @@ public class UMApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        SharedPreferences tokenSP = getSharedPreferences("mytoken", 0);
+        SharedPreferences.Editor editor = tokenSP.edit();
+
         String APPKEY = "";
         String MESSAGE_SECRET = "";
 
@@ -57,6 +61,8 @@ public class UMApplication extends Application {
                 //注册成功会返回device token
                 Log.v("my_token","推送服务注册成功");
                 Log.v("my_token","my device token = "+deviceToken);
+                editor.putString("token",deviceToken);
+                editor.commit();
             }
 
             @Override
