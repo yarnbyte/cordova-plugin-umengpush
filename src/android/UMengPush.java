@@ -1,6 +1,7 @@
 package com.yl.umeng;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.umeng.message.PushAgent;
@@ -32,7 +33,8 @@ public class UMengPush extends CordovaPlugin {
     private CallbackContext mCallbackContext;
     public static JSONObject pendingNotification;
 
-
+    SharedPreferences tokenSP;
+    
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
