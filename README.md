@@ -31,7 +31,7 @@ src/android/UMApplication.java
 ## for cordova
 
 ### 初始化
-根据友盟推送限制政策([https://developer.umeng.com/docs/66632/detail/68343](https://developer.umeng.com/docs/66632/detail/68343))，单播是不限制的，实现单播需要根据设备的推送token来进行推送，在插件初始化时，插件已经获取了token，可以按以下方式得到：
+根据友盟推送的发送限制政策([https://developer.umeng.com/docs/66632/detail/68343](https://developer.umeng.com/docs/66632/detail/68343))，单播是不限制的，实现单播需要根据设备的推送token来进行推送，在插件初始化时，插件已经获取了token，可以按以下方式得到：
 
 ```
 cordova.plugins.UMengPush.init(function(token){
@@ -76,7 +76,7 @@ providers: [
 
 ```
 ### 初始化
-根据友盟推送限制政策([https://developer.umeng.com/docs/66632/detail/68343](https://developer.umeng.com/docs/66632/detail/68343))，单播是不限制的，实现单播需要根据设备的推送token来进行推送，在插件初始化时，插件已经获取了token，可以按以下方式得到：
+根据友盟推送的发送限制政策([https://developer.umeng.com/docs/66632/detail/68343](https://developer.umeng.com/docs/66632/detail/68343))，单播是不限制的，实现单播需要根据设备的推送token来进行推送，在插件初始化时，插件已经获取了token，可以按以下方式得到：
 
 ```
 upush.init().then(token => {
