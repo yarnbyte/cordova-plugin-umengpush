@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-umengpush",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "友盟推送cordova插件",
   "cordova": {
     "id": "com.yl.umengpush",
