@@ -4,19 +4,14 @@
   <name>UMengPush</name>
   <js-module name="UMengPush" src="www/UMengPush.js">
     <clobbers target="cordova.plugins.UMengPush"/>
+    <clobbers target="UMengPush"/>
   </js-module>
-  <preference name="IOS_APPKEY" default=""/>
-  <preference name="UM_APPKEY" default=""/>
-  <preference name="UM_MESSAGE_SECRET" default=""/>
-  <preference name="XIAOMI_ID" default=""/>
-  <preference name="XIAOMI_KEY" default=""/>
-  <preference name="MEIZU_APPID" default=""/>
-  <preference name="MEIZU_APPKEY" default=""/>
   <platform name="android">
     <hook src="scripts/android_app_name.js" type="after_prepare"/>
     <config-file parent="/*" target="res/xml/config.xml">
       <feature name="UMengPush">
         <param name="android-package" value="com.yl.umeng.UMengPush"/>
+        <param name="onload" value="true" />
       </feature>
     </config-file>
     <config-file parent="/*" target="AndroidManifest.xml">
@@ -30,19 +25,15 @@
       <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     </config-file>
     <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
-      <activity android:exported="true" android:launchMode="singleTask" android:name="com.yl.umeng.PushActivity"/>
+      <activity android:exported="true" android:launchMode="singleTask" android:name="com.yl.umeng.PushActivity" android:screenOrientation="landscape"/>
       <meta-data android:name="UM_APPKEY" android:value="$UM_APPKEY"/>
       <meta-data android:name="UM_MESSAGE_SECRET" android:value="$UM_MESSAGE_SECRET"/>
-      <meta-data android:name="XIAOMI_ID" android:value="$XIAOMI_ID"/>
-      <meta-data android:name="XIAOMI_KEY" android:value="$XIAOMI_KEY"/>
-      <meta-data android:name="MEIZU_APPID" android:value="$MEIZU_APPID"/>
-      <meta-data android:name="MEIZU_APPKEY" android:value="$MEIZU_APPKEY"/>
     </config-file>
     <config-file parent="/*" target="AndroidManifest.xml"/>
     <framework custom="true" src="src/android/plugin.gradle" type="gradleReference"/>
     <source-file src="src/android/UMengPush.java" target-dir="src/com/yl/umeng"/>
-    <source-file src="src/android/PushActivity.java" target-dir="src/com/yl/umeng"/>
     <source-file src="src/android/UMApplication.java" target-dir="src/com/yl/umeng"/>
+    <source-file src="src/android/PushActivity.java" target-dir="src/com/yl/umeng"/>
     <lib-file src="src/android/libs/umeng-common-1.4.4.jar"/>
     <lib-file src="src/android/libs/utdid4all-1.1.5.3_proguard.jar"/>
     <resource-file src="src/android/aars/push.aar" target="libs/push.aar"/>
@@ -53,7 +44,6 @@
         <param name="ios-package" value="UMengPush"/>
         <param name="onload" value="true" />
       </feature>
-      <preference name="UMENGPUSHAPPID" value="$IOS_APPKEY" />
     </config-file>
     <header-file src="src/ios/UMengPush.h"/>
     <header-file src="src/ios/AppDelegate+UmengPush.h"/>

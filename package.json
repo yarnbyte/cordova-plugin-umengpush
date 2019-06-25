@@ -14,8 +14,8 @@
     "url": "git+https://github.com/plat10510/cordova-plugin-umengpush.git"
   },
   "keywords": [
-    "umeng",
-    "push"
+    "cordova-push",
+    "cordova-notification"
   ],
   "author": "luoyuanli",
   "license": "MIT",

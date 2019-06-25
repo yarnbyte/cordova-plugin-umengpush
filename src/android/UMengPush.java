@@ -1,6 +1,10 @@
 package com.yl.umeng;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.umeng.message.PushAgent;
@@ -8,7 +12,7 @@ import com.umeng.message.UTrack;
 import com.umeng.message.common.inter.ITagManager;
 import com.umeng.message.tag.TagManager;
 
-import org.apache.cordova.CordovaArgs;
+
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
@@ -27,16 +31,43 @@ import java.lang.reflect.Method;
 public class UMengPush extends CordovaPlugin {
 
     private static final String TAG = UMengPush.class.getSimpleName();
+
     private PushAgent mPushAgent;
 
     private CallbackContext mCallbackContext;
     public static JSONObject pendingNotification;
 
+    SharedPreferences tokenSP;
+
+    BroadcastReceiver uPushBroadcastReceiver;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         mPushAgent = PushAgent.getInstance(this.cordova.getActivity());
+
+        uPushBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String str = intent.getStringExtra("data");
+                try {
+                    JSONObject jsonObject = new JSONObject(str);
+                    sendNotification(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        IntentFilter notificationIntentFilter = new IntentFilter("com.yl.umeng.NotificationIntentFilter");
+        cordova.getContext().registerReceiver(uPushBroadcastReceiver,notificationIntentFilter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(uPushBroadcastReceiver!=null){
+            cordova.getContext().unregisterReceiver(uPushBroadcastReceiver);
+        }
     }
 
     @Override
@@ -56,19 +87,6 @@ public class UMengPush extends CordovaPlugin {
         return true;
     }
 
-    public void coolMethod(JSONArray args, CallbackContext callbackContext) {
-
-
-        String alias = args.optString(0);
-        String alias_type = args.optString(1);
-
-        if (args != null) {
-            callbackContext.success(alias+"==="+alias_type);
-        } else {
-            callbackContext.error("Expected one non-empty string argument.");
-        }
-    }
-
     public void init(JSONArray args, final  CallbackContext callbackContext){
         tokenSP = this.cordova.getContext().getSharedPreferences("mytoken", 0);
         String token = tokenSP.getString("token","");
@@ -79,11 +97,8 @@ public class UMengPush extends CordovaPlugin {
         }
     }
 
-
     //设置别名
     public void setAlias(JSONArray args, final CallbackContext callbackContext) {
-        Log.v("usecordova","setAlias");
-
         String alias = args.optString(0);
         String alias_type = args.optString(1);
 
@@ -109,7 +124,6 @@ public class UMengPush extends CordovaPlugin {
     public void addAlias(JSONArray args, CallbackContext callbackContext) {
         String alias = args.optString(0);
         String alias_type = args.optString(1);
-
         if (args != null) {
             mPushAgent.addAlias(alias, alias_type, new UTrack.ICallBack() {
                 @Override
@@ -153,9 +167,7 @@ public class UMengPush extends CordovaPlugin {
     //添加标签
     public void addTags(JSONArray args, CallbackContext callbackContext) {
         String tag = args.optString(0);
-
         if (args != null) {
-
             mPushAgent.getTagManager().addTags(new TagManager.TCallBack() {
                 @Override
                 public void onMessage(boolean b, ITagManager.Result result) {
@@ -175,9 +187,7 @@ public class UMengPush extends CordovaPlugin {
     //删除标签
     public void deleteTags(JSONArray args, CallbackContext callbackContext) {
         String tag = args.optString(0);
-
         if (args != null) {
-
             mPushAgent.getTagManager().deleteTags(new TagManager.TCallBack() {
                 @Override
                 public void onMessage(boolean b, ITagManager.Result result) {
@@ -194,29 +204,22 @@ public class UMengPush extends CordovaPlugin {
         }
     }
 
-    protected boolean getRemoteNotification(String arg, final CallbackContext callbackContext) {
+    public void subscribeNotification(JSONArray args, CallbackContext callbackContext) {
         mCallbackContext = callbackContext;
-        if (pendingNotification == null) {
-            try {
-                pendingNotification = new JSONObject("{}");
-            }
-            catch (JSONException e) {
-                mCallbackContext.error(e.getMessage());
-            }
+        if (pendingNotification != null) {
+            sendNotification(pendingNotification);
         }
-        sendNotification(pendingNotification);
-        return true;
+
     }
 
     private void sendNotification(JSONObject json) {
-        if (mCallbackContext == null) {
-            pendingNotification = json;
-            return;
+        if (mCallbackContext != null) {
+            PluginResult result = new PluginResult(PluginResult.Status.OK, json);
+            pendingNotification = null;
+            result.setKeepCallback(true);
+            mCallbackContext.sendPluginResult(result);
         }
-        PluginResult result = new PluginResult(PluginResult.Status.OK, json);
-        pendingNotification = null;
-        result.setKeepCallback(true);
-        mCallbackContext.sendPluginResult(result);
+
     }
 
 }

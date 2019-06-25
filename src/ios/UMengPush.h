@@ -17,6 +17,7 @@
 - (void)deleteAlias:(CDVInvokedUrlCommand *)command;
 - (void)addTags:(CDVInvokedUrlCommand *)command;
 - (void)deleteTags:(CDVInvokedUrlCommand *)command;
+- (void)subscribeNotification:(CDVInvokedUrlCommand *)command;
 - (void)getRemoteNotification:(CDVInvokedUrlCommand *)command;
 + (void)setPendingNotification:(NSDictionary *)notification;
 
