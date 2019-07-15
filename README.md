@@ -1,4 +1,8 @@
 # cordova-plugin-umengpush
+[npm-image]:http://img.shields.io/npm/v/cordova-plugin-umengpush.svg
+[npm-url]:https://npmjs.org/package/cordova-plugin-umengpush
+[downloads-image]:http://img.shields.io/npm/dm/cordova-plugin-umengpush.svg?label=月下载
+[total-downloads-image]:http://img.shields.io/npm/dt/cordova-plugin-umengpush.svg?label=总下载
 友盟推送cordova插件，目前已支持iOS以及华为、小米和魅族推送。
 ### 最新更新 
 添加了推送参数的获取，通知参数（包含自定义参数）在用户点击通知进入APP后能通过定义好的监听获取。iOS支持冷启动获取参数，android暂时还不支持获取离线推送的参数。
