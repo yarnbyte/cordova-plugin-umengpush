@@ -14,6 +14,24 @@
 ### 最新更新 
 添加了推送参数的获取，通知参数（包含自定义参数）在用户点击通知进入APP后能通过定义好的监听获取。iOS支持冷启动获取参数，android暂时还不支持获取离线推送的参数。
 
+ios13获取DEVICE_TOKEN方式有所变化，需要更换获取代码为：
+```
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken{
+    
+    if (![deviceToken isKindOfClass:[NSData class]]) return;
+    const unsigned *tokenBytes = [deviceToken bytes];
+    NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                          ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                          ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                          ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+    
+    NSLog(@"device token is %@",hexToken);
+    
+    [[NSUserDefaults standardUserDefaults] setValue:hexToken forKey:@"my_deviceToken"];
+    
+}
+```
+
 ## 1. 安装
 需要iOS以及小米、华为、魅族推送的相关的AK或SK，按下面的命令安装，有点长，可以先用其他字符占用，再到插件里手动修改这些需要的各种ID和KEY。
 
