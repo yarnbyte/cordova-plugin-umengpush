@@ -14,7 +14,7 @@
 ### 最新更新 
 添加了推送参数的获取，通知参数（包含自定义参数）在用户点击通知进入APP后能通过定义好的监听获取。iOS支持冷启动获取参数，android暂时还不支持获取离线推送的参数。
 
-iOS13获取DEVICE_TOKEN方式有所变化，需要更换的代码：
+iOS13获取DEVICE_TOKEN方式有所变化，需要在AppDelegate+UmengPush.m更改的代码为：
 ```
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken{
     
