@@ -6,7 +6,7 @@
 
 [npm-image]:http://img.shields.io/npm/v/cordova-plugin-umengpush.svg
 [npm-url]:https://npmjs.org/package/cordova-plugin-umengpush
-[downloads-image]:http://img.shields.io/npm/dm/cordova-plugin-umengpush.svg?label=月下载
+[downloads-image]:http://img.shields.io/npm/dm/cordova-plugin-umengpush.svg?label=当月下载
 [total-downloads-image]:http://img.shields.io/npm/dt/cordova-plugin-umengpush.svg?label=总下载
 
 
