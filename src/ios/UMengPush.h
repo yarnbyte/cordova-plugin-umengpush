@@ -10,7 +10,6 @@
 
 @property (nonatomic, strong) NSString *umengPushAppId;
 
-- (void)coolMethod:(CDVInvokedUrlCommand *)command;
 - (void)init:(CDVInvokedUrlCommand *)command;
 - (void)setAlias:(CDVInvokedUrlCommand *)command;
 - (void)addAlias:(CDVInvokedUrlCommand *)command;
@@ -18,7 +17,6 @@
 - (void)addTags:(CDVInvokedUrlCommand *)command;
 - (void)deleteTags:(CDVInvokedUrlCommand *)command;
 - (void)subscribeNotification:(CDVInvokedUrlCommand *)command;
-- (void)getRemoteNotification:(CDVInvokedUrlCommand *)command;
 + (void)setPendingNotification:(NSDictionary *)notification;
 
 @end

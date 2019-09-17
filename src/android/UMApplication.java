@@ -1,5 +1,6 @@
 package com.yl.umeng;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Notification;
 import android.content.Context;
@@ -7,8 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Process;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
@@ -19,10 +20,13 @@ import com.umeng.message.entity.UMessage;
 
 import org.android.agoo.huawei.HuaWeiRegister;
 import org.android.agoo.mezu.MeizuRegister;
+import org.android.agoo.oppo.OppoRegister;
+import org.android.agoo.vivo.VivoRegister;
 import org.android.agoo.xiaomi.MiPushRegistar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,20 +50,27 @@ public class UMApplication extends Application {
         String MEIZU_APPID = "";
         String MEIZU_APPKEY = "";
 
-       try {
-           ApplicationInfo appInfo = this.getPackageManager()
-                   .getApplicationInfo(this.getPackageName(),PackageManager.GET_META_DATA);
-           APPKEY = appInfo.metaData.getString("UM_APPKEY");
-           MESSAGE_SECRET = appInfo.metaData.getString("UM_MESSAGE_SECRET");
+        String OPPO_APPID = "";
+        String OPPO_APPKEY = "";
 
-           XIAOMI_ID = appInfo.metaData.getString("XIAOMI_ID");
-           XIAOMI_KEY = appInfo.metaData.getString("XIAOMI_KEY");
+        try {
+            ApplicationInfo appInfo = this.getPackageManager()
+                    .getApplicationInfo(this.getPackageName(),PackageManager.GET_META_DATA);
 
-           MEIZU_APPID = appInfo.metaData.getString("MEIZU_APPID");
-           MEIZU_APPKEY = appInfo.metaData.getString("MEIZU_APPKEY");
-       } catch (PackageManager.NameNotFoundException e) {
-           e.printStackTrace();
-       }
+            APPKEY = getMetaString(appInfo.metaData.get("UM_APPKEY").toString());
+            MESSAGE_SECRET = getMetaString(appInfo.metaData.get("UM_MESSAGE_SECRET").toString());
+
+            XIAOMI_ID = getMetaString(appInfo.metaData.get("XIAOMI_ID").toString());
+            XIAOMI_KEY = getMetaString(appInfo.metaData.get("XIAOMI_KEY").toString());
+
+            MEIZU_APPID = getMetaString(appInfo.metaData.get("MEIZU_APPID").toString());
+            MEIZU_APPKEY = getMetaString(appInfo.metaData.get("MEIZU_APPKEY").toString());
+
+            OPPO_APPID = getMetaString(appInfo.metaData.get("OPPO_APPID").toString());
+            OPPO_APPKEY = getMetaString(appInfo.metaData.get("OPPO_APPKEY").toString());
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         UMConfigure.init(this, APPKEY, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, MESSAGE_SECRET);
 
@@ -84,12 +95,16 @@ public class UMApplication extends Application {
             }
         });
 
-        HuaWeiRegister.register(this);
-
-        MiPushRegistar.register(this,XIAOMI_ID,XIAOMI_KEY);
+        if(isMainProcess()){
+            HuaWeiRegister.register(this);
+            MiPushRegistar.register(this,XIAOMI_ID,XIAOMI_KEY);
+        }
 
         MeizuRegister.register(this,MEIZU_APPID,MEIZU_APPKEY);
 
+        OppoRegister.register(this,OPPO_APPID, OPPO_APPKEY);
+
+        VivoRegister.register(this);
 
         UmengNotificationClickHandler umengNotificationClickHandler = new UmengNotificationClickHandler(){
 
@@ -153,6 +168,32 @@ public class UMApplication extends Application {
         }
 
         return jsonObject;
+    }
+
+    /**
+     * 是否主进程
+     */
+    private Boolean isMainProcess() {
+        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        if (am.getRunningAppProcesses() == null) {
+            return false;
+        }
+        List<ActivityManager.RunningAppProcessInfo> processInfo = am.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo info : processInfo) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String getMetaString(String str){
+        if(str!=null && str.length()>0){
+            return str.substring(1,str.length());
+        }
+        return "";
     }
 
 }

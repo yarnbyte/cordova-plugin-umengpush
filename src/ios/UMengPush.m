@@ -16,11 +16,12 @@ static id static_self;
 {
     static_self = self;
     
-    //这是从资源里获取appId
-    NSString* appId = [[self.commandDelegate settings] objectForKey:@"umengpushappid"];
-    if (appId)
+    //这是从资源里获取appkey
+    NSDictionary *plistDic = [[NSBundle mainBundle] infoDictionary];
+    NSString* appkey = [[plistDic objectForKey:@"UMengPush"] objectForKey:@"UMPUSH_APPKEY"];
+    if (appkey)
     {
-        self.umengPushAppId = appId;
+        self.umengPushAppId = appkey;
     }
     
 	
@@ -89,25 +90,6 @@ static id static_self;
 
 
 #pragma mark API
-- (void)coolMethod:(CDVInvokedUrlCommand*)command
-{
-    CDVPluginResult* pluginResult = nil;
-    
-    
-    NSArray *args = [command arguments];
-    NSString *alias = [args objectAtIndex:0];
-    NSString *alias_type = [args objectAtIndex:1];
-    
-    NSString *t = @"====";
-    if (args == nil || [args count] == 0) {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[[alias stringByAppendingString:t] stringByAppendingString:alias_type]];
-    } else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-    }
-
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-}
-
 - (void)init:(CDVInvokedUrlCommand *)command
 {
     

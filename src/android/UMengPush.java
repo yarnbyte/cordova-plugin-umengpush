@@ -89,7 +89,6 @@ public class UMengPush extends CordovaPlugin {
 
     public void init(JSONArray args, final  CallbackContext callbackContext){
         tokenSP = this.cordova.getContext().getSharedPreferences("mytoken", 0);
-        String token = tokenSP.getString("token","");
         if(!tokenSP.getString("token","").equals("")){
             callbackContext.success(tokenSP.getString("token",""));
         }else{

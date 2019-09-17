@@ -121,12 +121,30 @@
     
 }
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken{
+    NSString *version = [UIDevice currentDevice].systemVersion;
+    if (version.doubleValue >= 13.0) {
+        // 针对 13.0 以上的iOS系统进行处理
+        if (![deviceToken isKindOfClass:[NSData class]]){
+            [[NSUserDefaults standardUserDefaults] setValue:@"device_token_is_nil" forKey:@"my_deviceToken"];
+            return;
+        }
+        const unsigned *tokenBytes = (const unsigned *)[deviceToken bytes];
+        NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                              ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                              ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                              ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+        NSLog(@"iOS13及以上,device token is %@",hexToken);
+        [[NSUserDefaults standardUserDefaults] setValue:hexToken forKey:@"my_deviceToken"];
+    } else {
+        // 针对 13.0 以下的iOS系统进行处理
+        NSString *token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<" withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
+        
+        NSLog(@"iOS13以下,device token is %@",token);
+        
+        [[NSUserDefaults standardUserDefaults] setValue:token forKey:@"my_deviceToken"];
+    }
     
-    NSString *token = [[[[deviceToken description] stringByReplacingOccurrencesOfString:@"<" withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    NSLog(@"device token is %@",token);
-    
-    [[NSUserDefaults standardUserDefaults] setValue:token forKey:@"my_deviceToken"];
     
 }
 
