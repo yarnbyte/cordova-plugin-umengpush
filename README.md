@@ -10,12 +10,8 @@
 [total-downloads-image]:http://img.shields.io/npm/dt/cordova-plugin-umengpush.svg?label=总下载
 
 
-<<<<<<< HEAD
 友盟推送cordova插件，目前已支持iOS(包括iOS13)以及华为、小米、魅族、OPPO、VIVO厂家离线推送。
 
-=======
-友盟推送cordova插件，目前已支持iOS以及华为、小米和魅族推送。
->>>>>>> 7be205386f7a523d68e810eb6bda9280ad723fa8
 ### 最新更新 
 添加了推送参数的获取，通知参数（包含自定义参数）在用户点击通知进入APP后能通过定义好的监听获取。iOS支持冷启动获取参数，android暂时还不支持获取离线推送的参数。
 #### 友盟SDK组件版本：
@@ -28,24 +24,6 @@
 
 
 
-
-iOS13获取DEVICE_TOKEN方式有所变化，需要在AppDelegate+UmengPush.m更改的代码为：
-```
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken{
-    
-    if (![deviceToken isKindOfClass:[NSData class]]) return;
-    const unsigned *tokenBytes = [deviceToken bytes];
-    NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
-                          ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
-                          ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
-                          ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
-    
-    NSLog(@"device token is %@",hexToken);
-    
-    [[NSUserDefaults standardUserDefaults] setValue:hexToken forKey:@"my_deviceToken"];
-    
-}
-```
 
 ## 1. 安装
 需要iOS以及小米、华为、魅族、OPPO、VIVO推送的相关的AK或SK，按下面的命令安装，命令有点长，可以先用其他字符占用，再到插件里手动修改这些需要的各个信息，特别需要注意的是华为的必须一开始安装时就要输入，或者安装完成后到plugin.xml中修改，不然只能打完包后到Manifests.xml文件中修改。不可以在java代码中修改，因为java文件中没有输入的地方，如果不按这个要求将无法获取华为设备推送标识。
