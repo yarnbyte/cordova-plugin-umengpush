@@ -50,7 +50,7 @@ public class UMApplication extends Application {
         String MEIZU_APPID = "";
         String MEIZU_APPKEY = "";
 
-        String OPPO_APPID = "";
+        String OPPO_SECRET = "";
         String OPPO_APPKEY = "";
 
         try {
@@ -66,7 +66,7 @@ public class UMApplication extends Application {
             MEIZU_APPID = getMetaString(appInfo.metaData.get("MEIZU_APPID").toString());
             MEIZU_APPKEY = getMetaString(appInfo.metaData.get("MEIZU_APPKEY").toString());
 
-            OPPO_APPID = getMetaString(appInfo.metaData.get("OPPO_APPID").toString());
+            OPPO_SECRET = getMetaString(appInfo.metaData.get("OPPO_SECRET").toString());
             OPPO_APPKEY = getMetaString(appInfo.metaData.get("OPPO_APPKEY").toString());
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -102,7 +102,7 @@ public class UMApplication extends Application {
 
         MeizuRegister.register(this,MEIZU_APPID,MEIZU_APPKEY);
 
-        OppoRegister.register(this,OPPO_APPID, OPPO_APPKEY);
+        OppoRegister.register(this,OPPO_APPKEY,OPPO_SECRET);
 
         VivoRegister.register(this);
 

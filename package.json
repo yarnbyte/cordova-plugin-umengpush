@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-umengpush",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "description": "友盟推送cordova插件，已集成厂家推送含iOS、华为、小米、魅族、OPPO、VIVO",
   "cordova": {
     "id": "com.yl.umengpush",
