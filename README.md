@@ -32,7 +32,7 @@
 需要iOS以及小米、华为、魅族、OPPO、VIVO推送的相关的AK或SK，按下面的命令安装，命令有点长，可以先用其他字符占用，再到插件里手动修改这些需要的各个信息，特别需要注意的是华为的必须一开始安装时就要输入，或者安装完成后到plugin.xml中修改，不然只能打完包后到Manifests.xml文件中修改。不可以在java代码中修改，因为java文件中没有输入的地方，如果不按这个要求将无法获取华为设备推送标识。
 
 ```
-cordova plugin add cordova-plugin-umengpush --variable IOS_APPKEY=YOUR_IOS_APPKEY --variable UM_APPKEY=YOUR_UM_APPKEY --variable=UM_MESSAGE_SECRET=YOUR_UM_MESSAGE_SECRET --variable HUAWEI_APPID=YOUR_HUAWEI_APPID --variable XIAOMI_ID=YOUR_XIAOMI_ID --variable XIAOMI_KEY=YOUR_XIAOMI_KEY --variable MEIZU_APPID=YOUR_MEIZU_APPID --variable MEIZU_APPKEY=YOUR_MEIZU_APPKEY --variable OPPO_APPKEY=YOUR_OPPO_APPKEY --variable OPPO_SECRET=YOUR_OPPO_SECRET
+cordova plugin add cordova-plugin-umengpush --variable IOS_APPKEY=YOUR_IOS_APPKEY --variable UM_APPKEY=YOUR_UM_APPKEY --variable UM_MESSAGE_SECRET=YOUR_UM_MESSAGE_SECRET --variable HUAWEI_APPID=YOUR_HUAWEI_APPID --variable XIAOMI_ID=YOUR_XIAOMI_ID --variable XIAOMI_KEY=YOUR_XIAOMI_KEY --variable MEIZU_APPID=YOUR_MEIZU_APPID --variable MEIZU_APPKEY=YOUR_MEIZU_APPKEY --variable OPPO_APPKEY=YOUR_OPPO_APPKEY --variable OPPO_SECRET=YOUR_OPPO_SECRET
 ```
 
 安装后可到源码中修改相关AK与SK信息，位置如下：
