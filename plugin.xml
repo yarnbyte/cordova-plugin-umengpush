@@ -39,15 +39,15 @@
         </config-file>
         <config-file mode="merge" parent="/manifest/application" target="AndroidManifest.xml">
             <activity android:exported="true" android:launchMode="singleTask" android:name="com.yl.umeng.PushActivity" android:screenOrientation="landscape"/>
-            <meta-data android:name="UM_APPKEY" android:value="$UM_APPKEY"/>
-            <meta-data android:name="UM_MESSAGE_SECRET" android:value="$UM_MESSAGE_SECRET"/>
-            <meta-data android:name="HUAWEI_APPID" android:value="$HUAWEI_APPID"/>
+            <meta-data android:name="UM_APPKEY" android:value="a$UM_APPKEY"/>
+            <meta-data android:name="UM_MESSAGE_SECRET" android:value="a$UM_MESSAGE_SECRET"/>
+            <meta-data android:name="HUAWEI_APPID" android:value="a$HUAWEI_APPID"/>
             <meta-data android:name="XIAOMI_ID" android:value="a$XIAOMI_ID"/>
             <meta-data android:name="XIAOMI_KEY" android:value="a$XIAOMI_KEY"/>
             <meta-data android:name="MEIZU_APPID" android:value="a$MEIZU_APPID"/>
-            <meta-data android:name="MEIZU_APPKEY" android:value="$MEIZU_APPKEY"/>
-            <meta-data android:name="OPPO_APPKEY" android:value="$OPPO_APPKEY"/>
-            <meta-data android:name="OPPO_SECRET" android:value="$OPPO_SECRET"/>
+            <meta-data android:name="MEIZU_APPKEY" android:value="a$MEIZU_APPKEY"/>
+            <meta-data android:name="OPPO_APPKEY" android:value="a$OPPO_APPKEY"/>
+            <meta-data android:name="OPPO_SECRET" android:value="a$OPPO_SECRET"/>
             <meta-data android:name="com.huawei.hms.client.appid" android:value="appid=$HUAWEI_APPID"/>
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"/>
