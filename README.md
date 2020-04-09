@@ -10,16 +10,14 @@
 [total-downloads-image]:http://img.shields.io/npm/dt/cordova-plugin-umengpush.svg?label=总下载
 
 
-友盟推送cordova插件，目前已支持iOS(包括iOS13)以及华为、小米、魅族、OPPO、VIVO厂家离线推送，。
+友盟推送cordova插件，目前已支持iOS(包括iOS13)以及华为、小米、魅族、OPPO、VIVO厂家离线推送，支持Android9和AndroidQ。
 
 ### 提示
-该插件上传到npmjs之后，ios的framework会丢失头文件，导致编译时提示缺少头文件，解决办法是用cordova安装插件命令安装完成后，再到github下载一次源码去替换plugins里用命令安装了的`cordova-plugin-umengpush`插件。  
+该插件上传到npmjs之后，ios的framework会丢失头文件，导致编译时提示缺少头文件，解决办法是用cordova安装插件命令安装完成后，再到github下载一次源码去替换plugins里的`cordova-plugin-umengpush`插件。  
 
 Android平台如果提示缺少xxx.so文件，则需要手动下载全平台so文件到自己项目的libs文件夹中。
 [全平台so文件下载地址](https://files.alicdn.com/tpsservice/7c94e1a0a2e35f6f27038c974ad9ffbf.zip)，引入方式[点击查看](https://luoyuanli.com/userfiles/2020/04/image-1586229818672.png)
 
-### 最新更新 
-添加了推送参数的获取，通知参数（包含自定义参数）在用户点击通知进入APP后能通过定义好的监听获取。iOS支持冷启动获取参数，android暂时还不支持获取离线推送的参数。
 #### 友盟SDK组件版本：
 | 平台           |  组件                     | 版本                     |
 |:------------- |:------------------------ |:----------------------- |
@@ -101,9 +99,6 @@ UMengPush.onSubscriptNotification(function(data){
 |:------------- |:---------------------------- |
 | `id`  | 该条通知的ID |
 | `state`  | 该通知是前台还是后台还是启动，值有三种，foreground,background,launch，launch是只有iOS才有，iOS退出应用后，来通知时点击通知启动APP，进入APP后获取参数时state是launch，foreground就是用户正在使用过程中来了通知。 |
-
-
-
 
 ## for ionic3+
 
@@ -209,6 +204,19 @@ api 'com.umeng.umsdk:utdid:1.1.5.3'
 
 
 其他问题可到issues提问，提问时请尽量详细描述。
+
+## 大版本更新日志
+### v2.5.0
+修复了大家之前提的多个bug问题，友盟插件升级到了6.0.5
+
+### v2.2.0
+添加了oppo和vivo厂家离线推送。
+
+### v2.1.0
+添加了推送参数的获取，通知参数（包含自定义参数）在用户点击通知进入APP后能通过定义好的监听获取。iOS支持冷启动获取参数，不过Android不支持获取离线推送的参数。
+
+### v1.0.1
+开始集成，支持iOS、华为、小米、魅族离线推送。
 
 ## 个人小推荐
 除了写代码，我平时还会进行一些电子音乐创作，创作完成后我会发布在网易云音乐，有Progressive House，Melodic Dubstep，Chillstep等风格，感兴趣的可以到网易云关注一下我啊~谢谢。音乐人：[Alamofire](https://music.163.com/#/artist?id=33349905)

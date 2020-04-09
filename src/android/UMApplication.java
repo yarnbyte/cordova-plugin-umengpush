@@ -1,18 +1,24 @@
 package com.yl.umeng;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Process;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.NotificationProxyBroadcastReceiver;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.UmengNotificationClickHandler;
@@ -28,6 +34,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
+
+import ${appid}.R;
 
 /**
  * Created by yl on 2018/9/7.
@@ -75,6 +83,8 @@ public class UMApplication extends Application {
         UMConfigure.init(this, APPKEY, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, MESSAGE_SECRET);
 
         PushAgent mPushAgent = PushAgent.getInstance(this);
+
+        mPushAgent.setNotificaitonOnForeground(true);
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(new IUmengRegisterCallback() {
 
@@ -102,7 +112,7 @@ public class UMApplication extends Application {
 
         MeizuRegister.register(this,MEIZU_APPID,MEIZU_APPKEY);
 
-        OppoRegister.register(this,OPPO_APPKEY,OPPO_SECRET);
+        OppoRegister.register(this,OPPO_APPKEY,OPPO_SECRET );
 
         VivoRegister.register(this);
 
@@ -134,13 +144,53 @@ public class UMApplication extends Application {
 
         UmengMessageHandler messageHandler = new UmengMessageHandler() {
             @Override
-            public Notification getNotification(Context context, UMessage msg) {
-                sendNotification(context,msg,"foreground");
-                return super.getNotification(context, msg);
+            public Notification getNotification(Context c, UMessage msg) {
+                notification(msg);
+                sendNotification(c,msg,"foreground");
+                return super.getNotification(c, msg);
             }
         };
         mPushAgent.setMessageHandler(messageHandler);
+    }
 
+    @TargetApi(26)
+    private void notification(UMessage msg){
+        Context context = getApplicationContext();
+        //添加事件,点击打开APP
+        Intent intentClick = new Intent(this, NotificationProxyBroadcastReceiver.class);
+        intentClick.setAction("ACTION");
+        intentClick.putExtra(NotificationProxyBroadcastReceiver.EXTRA_KEY_ACTION, 12);
+        PendingIntent pendingIntentClick = PendingIntent.getBroadcast(this, 0, intentClick, PendingIntent.FLAG_ONE_SHOT);
+
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //通知渠道的ID
+        String id = msg.message_id;
+        //用户可以看到的通知渠道的名字，R.string.app_name就是strings.xml文件的参数，自定义一个就好了
+        CharSequence name = getString(R.string.app_name);
+        //用户可看到的通知描述
+        String description = getString(R.string.app_name);
+        //构建NotificationChannel实例
+        NotificationChannel notificationChannel =
+                new NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH);
+        //配置通知渠道的属性
+        notificationChannel.setDescription(description);
+        //设置通知出现时的闪光灯
+        notificationChannel.enableLights(true);
+        //设置通知出现时的震动
+        notificationChannel.enableVibration(true);
+        notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 100});
+        //在notificationManager中创建通知渠道
+        manager.createNotificationChannel(notificationChannel);
+
+        Notification notification = new NotificationCompat.Builder(context, id)
+                .setContentTitle(msg.title)
+                .setContentText(msg.text)
+                .setSmallIcon(R.mipmap.icon)
+                .setWhen(System.currentTimeMillis())
+                .setContentIntent(pendingIntentClick)
+                .setAutoCancel(true)
+                .build();
+        manager.notify(1, notification);
     }
 
     private void sendNotification(Context context,UMessage uMessage,String state){
@@ -166,7 +216,6 @@ public class UMApplication extends Application {
                 e.printStackTrace();
             }
         }
-
         return jsonObject;
     }
 
