@@ -24,7 +24,7 @@ module.exports = function (context) {
 
             if (data.indexOf(appId) == -1) {
 
-                var result = data.replace(/${appid}/g, appId);
+                var result = data.replace('${appid}', appId);
 
                 fs.writeFile(manifestFile, result, 'utf8', function (err) {
                     if (err) throw new Error('替换app package name 失败' + err);
