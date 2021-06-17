@@ -12,7 +12,7 @@ module.exports = function (ctx) {
                 cb(err);
                 return;
             }
-            var result = data.replace(/jcenter\(\)/g, 'jcenter()\r\t\tmaven { url "https://dl.bintray.com/umsdk/release" }');
+            var result = data.replace(/jcenter\(\)/g, 'jcenter()\r\t\tmaven { url "https://repo1.maven.org/maven2/" }');
             fs.writeFile(f, result, 'utf8', cb);
         });
     }, function (err) {
