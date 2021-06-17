@@ -7,7 +7,6 @@ repositories{
 dependencies {
     //基础组件库依赖(必须) Push 605版本必须升级新版本Common SDK
     api 'com.umeng.umsdk:common:9.3.8'
-    implementation 'com.umeng.umsdk:asms:1.2.2'
     implementation 'com.umeng.umsdk:utdid:1.5.2.1'
     //友盟push相关依赖(必须)
     api 'com.umeng.umsdk:push:6.0.5'
