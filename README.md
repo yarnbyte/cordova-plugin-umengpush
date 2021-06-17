@@ -208,6 +208,10 @@ api 'com.umeng.umsdk:utdid:1.1.5.3'
 其他问题可到issues提问，提问时请尽量详细描述。
 
 ## 大版本更新日志
+### v2.5.7
+更换了友盟sdk的maven仓库地址；
+升级了com.umeng.umsdk:common版本到9.3.8
+
 ### v2.5.0
 修复了大家之前提的多个bug问题，友盟插件升级到了6.0.5
 
